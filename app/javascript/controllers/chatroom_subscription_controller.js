@@ -7,11 +7,17 @@ export default class extends Controller {
   static targets = ["messages"]
 
   connect() {
+    console.log("Connecting to the chatroom");
     this.subscription = createConsumer().subscriptions.create(
       { channel: "ChatroomChannel", id: this.chatroomIdValue },
       { received: (data) => this.#insertMessage(data)}
     )
     // console.log("this.messageTarget:", this.messageTarget);
+  }
+
+  disconnect() {
+    console.log("disconnected from the chatroom")
+    this.subscription.unsubscribe()
   }
 
   resetForm(event) {
